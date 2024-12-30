@@ -34,11 +34,11 @@ flutter build apk --release
 flutter build appbundle
 ```
 <div style="display: flex; flex-wrap: wrap;">
-  <img src="./assets/1" alt="ss1" width="200"/>
-  <img src="./assets/2" alt="ss2" width="200"/>
-  <img src="./assets/3" alt="ss3" width="200"/>
-  <img src="./assets/4" alt="ss4" width="200"/>
-  <img src="./assets/5" alt="ss4" width="200"/>
-  <img src="./assets/6" alt="ss4" width="200"/>
-  <img src="./assets/7" alt="ss4" width="200"/>
+  <img src="./assets/1.png" alt="ss1" width="200"/>
+  <img src="./assets/2.png" alt="ss2" width="200"/>
+  <img src="./assets/3.png" alt="ss3" width="200"/>
+  <img src="./assets/4.png" alt="ss4" width="200"/>
+  <img src="./assets/5.png" alt="ss4" width="200"/>
+  <img src="./assets/6.png" alt="ss4" width="200"/>
+  <img src="./assets/7.png" alt="ss4" width="200"/>
 </div>
