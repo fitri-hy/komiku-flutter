@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../provider/ThemeProvider.dart';
 import 'Detail.dart';
+import '../main.dart';
 
 class GenreDetail extends StatefulWidget {
   final String title;
@@ -117,11 +118,34 @@ class _GenreDetailState extends State<GenreDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+              );
+            },
+          ),
+        ],
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator(color: themeProvider.isDarkMode ? Colors.white : Colors.indigo))
           : genreDetails.isEmpty
-              ? Center(child: Text('Terjadi Kesalahan, Silakan Muat Ulang Halaman.'))
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Terjadi Kesalahan, Silakan Muat Ulang Halaman.'),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: fetchGenreDetail,
+                        child: Text('Muat Ulang'),
+                      ),
+                    ],
+                  ),
+                )
               : Column(
                   children: [
                     SizedBox(height: 5),
@@ -185,7 +209,19 @@ class _GenreDetailState extends State<GenreDetail> {
                     ),
                     Expanded(
                       child: genreDetails.isEmpty
-                          ? Center(child: Text('Terjadi Kesalahan, Silakan Muat Ulang Halaman.'))
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Gagal mendapatkan data!'),
+                                  SizedBox(height: 10),
+                                  ElevatedButton(
+                                    onPressed: fetchGenreDetail,
+                                    child: Text('Coba Lagi'),
+                                  ),
+                                ],
+                              ),
+                            )
                           : ListView.builder(
                               padding: EdgeInsets.all(16.0),
                               itemCount: genreDetails.length + 1,
@@ -246,11 +282,8 @@ class _GenreDetailState extends State<GenreDetail> {
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(5.0),
-                                          ),
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(5.0),
                                           child: Container(
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(10),
@@ -274,7 +307,7 @@ class _GenreDetailState extends State<GenreDetail> {
                                         ),
                                         Expanded(
                                           child: Padding(
-                                            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+                                            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
@@ -299,16 +332,16 @@ class _GenreDetailState extends State<GenreDetail> {
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                                 SizedBox(height: 8.0),
-                                                 Row(
-												    children: [
-													  Icon(Icons.visibility, color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, size: 14),
-													  SizedBox(width: 5),
-													  Text(
-													    '${genre['view']}',
-													    style: TextStyle(color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, fontSize: 14),
-													  ),
-												    ],
-												  )
+                                                Row(
+                                                  children: [
+                                                    Icon(Icons.visibility, color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, size: 14),
+                                                    SizedBox(width: 5),
+                                                    Text(
+                                                      '${genre['view']}',
+                                                      style: TextStyle(color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, fontSize: 14),
+                                                    ),
+                                                  ],
+                                                )
                                               ],
                                             ),
                                           ),

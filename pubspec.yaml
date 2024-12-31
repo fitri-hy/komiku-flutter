@@ -39,6 +39,7 @@ dependencies:
   typed_data: ^1.4.0
   carousel_slider: ^5.0.0
   url_launcher: ^6.3.1
+  flutter_local_notifications: ^18.0.1
 
 dev_dependencies:
   flutter_test:

@@ -68,9 +68,25 @@ class _PopularPageState extends State<PopularPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Terjadi Kesalahan, Silakan Muat Ulang Halaman.'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Gagal mendapatkan data!'),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        futurePopular = fetchPopular();
+                      });
+                    },
+                    child: Text('Coba Lagi'),
+                  ),
+                ],
+              ),
+            );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No data found'));
+            return Center(child: Text('Tidak ada data untuk saat ini.'));
           }
 
           final popularList = snapshot.data!;

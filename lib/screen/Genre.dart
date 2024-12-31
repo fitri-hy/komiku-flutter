@@ -59,36 +59,48 @@ class _GenreState extends State<Genre> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
-          ? Center(child: CircularProgressIndicator(color: Colors.indigo))
-          : ListView.builder(
-              itemCount: genres.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => navigateToGenreDetail(genres[index].title, genres[index].slug),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Card(
-                      margin: EdgeInsets.symmetric(vertical: 5.0),
-                      elevation: 1,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                        child: ListTile(
-                          leading: Icon(Icons.category, color: Colors.indigo, size: 30),
-                          title: Text(
-                            genres[index].title,
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ? Center(child: CircularProgressIndicator(color: Colors.indigo))
+        : genres.isEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(child: Text('Gagal mendapatkan data!')),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: fetchGenres,
+                    child: Text('Coba Lagi'),
+                  ),
+                ],
+              )
+            : ListView.builder(
+                itemCount: genres.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () => navigateToGenreDetail(genres[index].title, genres[index].slug),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Card(
+                        margin: EdgeInsets.symmetric(vertical: 5.0),
+                        elevation: 1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: ListTile(
+                            leading: Icon(Icons.category, color: Colors.indigo, size: 30),
+                            title: Text(
+                              genres[index].title,
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(Icons.arrow_right, color: Colors.indigo),
                           ),
-                          trailing: Icon(Icons.arrow_right, color: Colors.indigo),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
     );
   }
 }

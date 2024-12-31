@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'Chapter.dart';
+import '../main.dart';
 
 class Detail extends StatelessWidget {
   final String slug;
@@ -40,6 +41,17 @@ class Detail extends StatelessWidget {
             }
           },
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+              );
+            },
+          ),
+        ],
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: fetchDetails(),
@@ -48,7 +60,6 @@ class Detail extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Terjadi Kesalahan, Silakan Muat Ulang Halaman.'));
-            // return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             final chapterData = snapshot.data!;
             String title = chapterData['title'] ?? 'N/A';
@@ -59,22 +70,25 @@ class Detail extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: Image.network(
-                        chapterData['image'] ?? '',
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                        errorBuilder: (context, error, stackTrace) {
-                          return Icon(Icons.error, size: 50);
-                        },
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5.0),
+                      child: Center(
+                        child: Image.network(
+                          chapterData['image'] ?? '',
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(Icons.error, size: 50);
+                          },
+                        ),
                       ),
                     ),
                     SizedBox(height: 16.0),
@@ -102,23 +116,23 @@ class Detail extends StatelessWidget {
                         var chapter = chapterData['chapters'][index];
                         return Card(
                           margin: EdgeInsets.symmetric(vertical: 5.0),
-						  elevation: 1,
-						  shape: RoundedRectangleBorder(
-							borderRadius: BorderRadius.circular(5.0),
-						  ),
+                          elevation: 1,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
                           child: ListTile(
                             title: Text(chapter['title'] ?? 'N/A', style: TextStyle(fontSize: 14)),
                             subtitle: Row(
-							  children: [
-								Icon(Icons.remove_red_eye, size: 14, color: Colors.grey),
-								SizedBox(width: 5),
-								Text('Views: ${chapter['views'] ?? 'N/A'}', style: TextStyle(fontSize: 14)),
-								SizedBox(width: 16),
-								Icon(Icons.calendar_today, size: 14, color: Colors.grey),
-								SizedBox(width: 5), 
-								Text('Date: ${chapter['date'] ?? 'N/A'}', style: TextStyle(fontSize: 14)),
-							  ],
-							),
+                              children: [
+                                Icon(Icons.remove_red_eye, size: 14, color: Colors.grey),
+                                SizedBox(width: 5),
+                                Text('Views: ${chapter['views'] ?? 'N/A'}', style: TextStyle(fontSize: 14)),
+                                SizedBox(width: 16),
+                                Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                                SizedBox(width: 5), 
+                                Text('Date: ${chapter['date'] ?? 'N/A'}', style: TextStyle(fontSize: 14)),
+                              ],
+                            ),
                             onTap: () {
                               Navigator.push(
                                 context,

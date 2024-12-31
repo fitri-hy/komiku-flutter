@@ -17,14 +17,7 @@ Komiku - Read Indonesian comics is a platform for reading various popular and ne
 ## Generates Keystore
 
 ```
-keytool -genkeypair -v -keystore komiku-key.keystore -keyalg RSA -keysize 2048 -validity 10000 -storepass 220898 -keypass 220898 -alias komiku
-```
-
-## Changing Package Name
-
-```
-flutter pub global activate rename
-flutter pub global run rename --bundleId com.example.newname
+keytool -genkeypair -v -keystore komiku-key.keystore -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -keypass 123456 -alias komiku
 ```
 
 ## Build & Release
@@ -34,11 +27,12 @@ flutter build apk --release
 flutter build appbundle
 ```
 <div style="display: flex; flex-wrap: wrap;">
-  <img src="./assets/1.png" alt="ss1" width="200"/>
-  <img src="./assets/2.png" alt="ss2" width="200"/>
-  <img src="./assets/3.png" alt="ss3" width="200"/>
-  <img src="./assets/4.png" alt="ss4" width="200"/>
-  <img src="./assets/5.png" alt="ss4" width="200"/>
-  <img src="./assets/6.png" alt="ss4" width="200"/>
-  <img src="./assets/7.png" alt="ss4" width="200"/>
+  <img src="./assets/ss/1.png" alt="ss1" width="200"/>
+  <img src="./assets/ss/2.png" alt="ss2" width="200"/>
+  <img src="./assets/ss/3.png" alt="ss3" width="200"/>
+  <img src="./assets/ss/4.png" alt="ss4" width="200"/>
+  <img src="./assets/ss/5.png" alt="ss4" width="200"/>
+  <img src="./assets/ss/6.png" alt="ss4" width="200"/>
+  <img src="./assets/ss/7.png" alt="ss4" width="200"/>
+  <img src="./assets/ss/8.png" alt="ss4" width="200"/>
 </div>

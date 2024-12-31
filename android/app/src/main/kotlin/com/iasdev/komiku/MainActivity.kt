@@ -1,4 +1,4 @@
-package com.example.komiku_flutter
+package com.iasdev.komiku
 
 import io.flutter.embedding.android.FlutterActivity
 

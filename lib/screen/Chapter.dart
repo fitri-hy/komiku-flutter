@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../main.dart';
 
 class Chapter extends StatelessWidget {
   final String slug;
@@ -28,6 +29,17 @@ class Chapter extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => MyApp()),
+              );
+            },
+          ),
+        ],
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: fetchChapterDetails(),
@@ -35,8 +47,21 @@ class Chapter extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Terjadi Kesalahan, Silakan Muat Ulang Halaman.'));
-            // return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Gagal mendapatkan data!'),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      fetchChapterDetails();
+                    },
+                    child: Text('Coba Lagi'),
+                  ),
+                ],
+              ),
+            );
           } else {
             final chapterData = snapshot.data!;
             return ListView.builder(

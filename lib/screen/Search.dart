@@ -126,31 +126,34 @@ class _SearchScreenState extends State<SearchScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: item['image'] != null && item['image']!.isNotEmpty
-                  ? Image.network(
-                      item['image'],
-                      height: 120,
-                      width: 90,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(child: CircularProgressIndicator());
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Center(
-                          child: Icon(Icons.error, color: Colors.red),
-                        );
-                      },
-                    )
-                  : Icon(Icons.image_not_supported, size: 50),
-            ),
+			  padding: EdgeInsets.all(10.0),
+			  decoration: BoxDecoration(
+				borderRadius: BorderRadius.circular(5.0),
+			  ),
+			  child: item['image'] != null && item['image']!.isNotEmpty
+				  ? ClipRRect(
+					  borderRadius: BorderRadius.circular(5.0),
+					  child: Image.network(
+						item['image'],
+						height: 120,
+						width: 90,
+						fit: BoxFit.cover,
+						loadingBuilder: (context, child, loadingProgress) {
+						  if (loadingProgress == null) return child;
+						  return Center(child: CircularProgressIndicator());
+						},
+						errorBuilder: (context, error, stackTrace) {
+						  return Center(
+							child: Icon(Icons.error, color: Colors.red),
+						  );
+						},
+					  ),
+					)
+				  : Icon(Icons.image_not_supported, size: 50),
+			),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

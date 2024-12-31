@@ -4,14 +4,27 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../screen/Detail.dart';
 
-class CarouselComponent extends StatelessWidget {
+class CarouselComponent extends StatefulWidget {
   final String apiUrl;
 
   CarouselComponent({required this.apiUrl});
 
+  @override
+  _CarouselComponentState createState() => _CarouselComponentState();
+}
+
+class _CarouselComponentState extends State<CarouselComponent> {
+  late Future<List<dynamic>> _comicsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _comicsFuture = fetchComics();
+  }
+
   Future<List<dynamic>> fetchComics() async {
     final response = await http.get(
-      Uri.parse(apiUrl),
+      Uri.parse(widget.apiUrl),
       headers: {
         'Content-Type': 'application/json',
       }).timeout(Duration(seconds: 10));
@@ -27,7 +40,7 @@ class CarouselComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<dynamic>>(
-      future: fetchComics(),
+      future: _comicsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
@@ -37,7 +50,23 @@ class CarouselComponent extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return Center(child: Text('Terjadi Kesalahan, Silakan Muat Ulang Halaman.'));
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Gagal mendapatkan data!'),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _comicsFuture = fetchComics();
+                    });
+                  },
+                  child: Text('Coba Lagi'),
+                ),
+              ],
+            ),
+          );
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(child: Text('No comics available'));
         } else {
@@ -56,7 +85,7 @@ class CarouselComponent extends StatelessWidget {
                   );
                 },
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0), // Add border radius
+                  borderRadius: BorderRadius.circular(15.0),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [

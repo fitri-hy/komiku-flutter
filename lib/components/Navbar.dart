@@ -29,7 +29,7 @@ class _NavbarState extends State<Navbar> {
           label: 'Genre',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
+          icon: Icon(Icons.info),
           label: 'Tentang',
         ),
       ],
