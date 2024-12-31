@@ -26,13 +26,5 @@ keytool -genkeypair -v -keystore komiku-key.keystore -keyalg RSA -keysize 2048 -
 flutter build apk --release
 flutter build appbundle
 ```
-<div style="display: flex; flex-wrap: wrap;">
-  <img src="./assets/ss/1.png" alt="ss1" width="200"/>
-  <img src="./assets/ss/2.png" alt="ss2" width="200"/>
-  <img src="./assets/ss/3.png" alt="ss3" width="200"/>
-  <img src="./assets/ss/4.png" alt="ss4" width="200"/>
-  <img src="./assets/ss/5.png" alt="ss4" width="200"/>
-  <img src="./assets/ss/6.png" alt="ss4" width="200"/>
-  <img src="./assets/ss/7.png" alt="ss4" width="200"/>
-  <img src="./assets/ss/8.png" alt="ss4" width="200"/>
-</div>
+
+<img src="./assets/ss/ss.png" alt="ss"/>
