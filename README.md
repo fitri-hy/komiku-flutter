@@ -27,4 +27,22 @@ flutter build apk --release
 flutter build appbundle
 ```
 
+## AdMob Settings
+
+- **Application ID** in `android/app/src/main/AndroidManifest.xml` 
+
+```
+<meta-data
+  android:name="com.google.android.gms.ads.APPLICATION_ID"
+  android:value="ca-app-pub-xxxxxxxxxxxxxxxxxxxx" />
+```
+
+- **Banner Unit ID** in `lib/provider/AdMobConfig.dart`
+
+```
+class AdMobConfig {
+  static const String adBannerUnitId = 'ca-app-pub-xxxxxxxxxxxxxxxxxxxx';
+}
+```
+
 <img src="./assets/ss/ss.png" alt="ss"/>

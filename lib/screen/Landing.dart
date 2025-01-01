@@ -3,9 +3,47 @@ import 'package:flutter/material.dart';
 import '../components/Carousel.dart';
 import '../models/Komik.dart';
 import 'Detail.dart';
+import '../provider/AdMobConfig.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class Landing extends StatelessWidget {
+class Landing extends StatefulWidget {
   const Landing();
+
+  @override
+  _LandingState createState() => _LandingState();
+}
+
+class _LandingState extends State<Landing> {
+  late BannerAd _bannerAd;
+  bool _isBannerAdLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _bannerAd = BannerAd(
+      adUnitId: AdMobConfig.adBannerUnitId,
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _isBannerAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          print('Failed to load a banner ad: ${error.message}');
+        },
+      ),
+    )..load();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    super.dispose();
+  }
 
   Future<List<Komik>> fetchRandomKomik(List<Komik> komikList) async {
     List<Komik> shuffledList = List.from(komikList);
@@ -46,7 +84,14 @@ class Landing extends StatelessWidget {
                 children: [
                   SizedBox(height: 10),
                   CarouselComponent(apiUrl: 'https://api.i-as.dev/api/komiku/popular'),
-                  SizedBox(height: 25),
+				  if (_isBannerAdLoaded)
+				  Container(
+					alignment: Alignment.center,
+					child: AdWidget(ad: _bannerAd),
+					width: _bannerAd.size.width.toDouble(),
+					height: _bannerAd.size.height.toDouble(),
+					margin: EdgeInsets.only(top: 10, bottom: 10),
+				  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
@@ -172,7 +217,7 @@ class Landing extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Gagal mendapatkan data acak!'),
+                              Text('Gagal mendapatkan data!'),
                               SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
