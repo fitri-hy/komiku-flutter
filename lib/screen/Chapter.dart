@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import '../main.dart';
 import '../provider/AdMobConfig.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -10,7 +12,7 @@ class Chapter extends StatefulWidget {
   final String title;
 
   Chapter({required this.slug, required this.title});
-  
+
   @override
   _ChapterState createState() => _ChapterState();
 }
@@ -26,7 +28,7 @@ class _ChapterState extends State<Chapter> {
     _chapterData = fetchChapterDetails();
     _initializeBannerAd();
   }
-  
+
   void _initializeBannerAd() {
     _bannerAd = BannerAd(
       adUnitId: AdMobConfig.adBannerUnitId,
@@ -51,7 +53,7 @@ class _ChapterState extends State<Chapter> {
     _bannerAd.dispose();
     super.dispose();
   }
-  
+
   Future<List<Map<String, dynamic>>> fetchChapterDetails() async {
     try {
       final response = await http.get(Uri.parse('https://api.i-as.dev/api/komiku/chapter/${widget.slug}')).timeout(Duration(seconds: 10));
@@ -123,12 +125,24 @@ class _ChapterState extends State<Chapter> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: double.infinity,
-                              child: chapter['image'] != null && chapter['image'].isNotEmpty
-                                ? Image.network(chapter['image'], fit: BoxFit.contain)
+                            chapter['image'] != null && chapter['image'].isNotEmpty
+                                ? GestureDetector(
+                                    onTap: () {
+                                      // Open the image in zoomable view
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => Dialog(
+                                          child: PhotoView(
+                                            imageProvider: NetworkImage(chapter['image']),
+                                            minScale: PhotoViewComputedScale.contained,
+                                            maxScale: PhotoViewComputedScale.covered,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Image.network(chapter['image'], fit: BoxFit.contain),
+                                  )
                                 : Placeholder(fallbackHeight: 100, fallbackWidth: double.infinity),
-                            ),
                           ],
                         ),
                       );
@@ -138,7 +152,7 @@ class _ChapterState extends State<Chapter> {
               },
             ),
           ),
-          if (_isBannerAdLoaded) 
+          if (_isBannerAdLoaded)
             Container(
               width: _bannerAd.size.width.toDouble(),
               height: _bannerAd.size.height.toDouble(),
